@@ -6,8 +6,8 @@
 #define GL3_PROTOTYPES 1
 #include <GL/gl.h>
 
-#include <SDL.h>
-#define PROGRAM_NAME "Tutorial1"
+ #include <SDL.h>
+ #define PROGRAM_NAME "Tutorial1"
 
 /* A simple function that prints a message, the error code returned by SDL,
  * and quits the application */
@@ -19,7 +19,7 @@ void sdldie(const char *msg)
 }
 
 
-void checkSDLError(int line = -1)
+void checkSDLError(int line)
 {
 #ifndef NDEBUG
     const char *error = SDL_GetError();
@@ -33,30 +33,6 @@ void checkSDLError(int line = -1)
 #endif
 }
 
-bool loadShaders(char vertex[256], char frag[256])
-{
-    if(!vertex || !frag)
-    {
-        return false;
-    }
-
-
-}
-
-unsigned int vbo = 0;
-void createTriangle(void)
-{
-    float points[] =
-    {
-        0.0f,  0.5f,  0.0f,
-        0.5f, -0.5f,  0.0f,
-       -0.5f, -0.5f,  0.0f
-    };
-
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), points, GL_STATIC_DRAW);
-}
 
 /* Our program's entry point */
 int main(int argc, char *argv[])
@@ -69,8 +45,8 @@ int main(int argc, char *argv[])
 
     /* Request opengl 3.2 context.
          * SDL doesn't have the ability to choose which profile at this time of writing,
-    	      * but it should default to the core profile */
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+              * but it should default to the core profile */
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
     /* Turn on double buffering with a 24bit Z buffer.
