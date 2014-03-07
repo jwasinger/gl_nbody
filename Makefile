@@ -4,7 +4,7 @@ OUTPUT_DIR = ./bin/
 CC     = g++
 CFLAGS = -I/usr/local/include/SDL2 -D_REENTRANT -L/usr/local/lib
 #LIBS = -lGLEW -lGL -lSDL2 -Wl,-rpath,/usr/local/lib -lm -lSDL2_test -lpthread
-LIBS = -lGL -lSDL2
+LIBS = -lGL -lGLEW -lSDL2
 
 EXE = 
 

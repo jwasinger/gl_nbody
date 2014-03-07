@@ -32,12 +32,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="src/main.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/renderer.cpp" />
 		<Unit filename="src/renderer.h" />
+		<Unit filename="src/shaders/basic.frag" />
+		<Unit filename="src/shaders/basic.vert" />
+		<Unit filename="src/util.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

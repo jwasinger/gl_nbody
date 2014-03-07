@@ -1,28 +1,42 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-enum TRANSFORM_TYPE : UINT
-{
-    TRANSFORM_WORLD,
-    TRANSFORM_PROJECTION,
-    TRANSFORM_VIEW,
-};
+#include "util.h"
 
-enum SHADER_TYPE
+namespace gl_nbody
 {
-    SHADER_TYPE_NONE = 0,
-    SHADER_TYPE_COLOR,
-    SHADER_TYPE_POINT_SPRITE,
-    SHADER_TYPE_TEXTURE,
-};
+    enum TRANSFORM_TYPE : UINT
+    {
+        TRANSFORM_WORLD,
+        TRANSFORM_PROJECTION,
+        TRANSFORM_VIEW,
+    };
 
-class Renderer
-{
-    public:
-		Renderer(void);
-		~Renderer();
+    enum SHADER_TYPE
+    {
+        SHADER_TYPE_NONE = 0,
+        SHADER_TYPE_COLOR,
+        SHADER_TYPE_POINT_SPRITE,
+        SHADER_TYPE_TEXTURE,
+    };
 
-		bool init(void);
-		void Render(void);
-};
+    class Renderer
+    {
+        public:
+            Renderer(void);
+            ~Renderer();
+
+            bool Init(SDL_window *mainWindow);
+            void Render(void);
+
+        private:
+            void createTriangle(void);
+            void renderTriangle(void);
+            void deleteTriangle(void);
+
+        private:
+            SDL_window *mainWindow;
+            SDL_GLContext maincontext;
+    };
+}
 #endif
