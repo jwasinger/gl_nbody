@@ -2,10 +2,10 @@ SRC_DIR = ./src/
 OUTPUT_DIR = ./bin/
 
 CC     = g++
-CFLAGS = -I/usr/local/include/SDL2 -D_REENTRANT -L/usr/lib/nvidia-304/
+CFLAGS = -I/usr/local/include/SDL2 -D_REENTRANT
 
 #LIBS = -lGLEW -lGL -lSDL2 -Wl,-rpath,/usr/local/lib -lm -lSDL2_test -lpthread
-LIBS = -lOpenCL -lGL -lGLEW -lSDL2
+LIBS = -lGL -lGLEW -lSDL2
 
 EXE = 
 
