@@ -32,6 +32,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="CMakeLists.txt" />
 		<Unit filename="src/InputController.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/renderer.cpp" />

@@ -1,18 +1,25 @@
-SRC_DIR = ./src/
-OUTPUT_DIR = ./bin/
+SRC_DIR = ./src
+OUTPUT_DIR = ./bin
+INCLUDE_DIR = ./include
 
 CC     = g++
-CFLAGS = -I/usr/local/include/SDL2 -D_REENTRANT
-
+GXX_FLAGS = 
+GXX_INCLUDES =-I/usr/local/include/SDL2 -D_REENTRANT
+GXX_LIBS = -lGL -lGLEW -lSDL2
 #LIBS = -lGLEW -lGL -lSDL2 -Wl,-rpath,/usr/local/lib -lm -lSDL2_test -lpthread
-LIBS = -lGL -lGLEW -lSDL2
 
-EXE = 
-
+debug:
+	$(GXXFLAGS) := -g
 #this make commmand compiles:
 #gcc -o main main.c -g -O2 -D_REENTRANT -I/usr/local/include/SDL2   -DHAVE_OPENGL -lSDL2_test -lGL -L/usr/local/lib -lSDL2 -lpthread 
 
 TARGET = gl_nbody
+
+Renderer.o: 
+	$(CC) $(CFLAGS) -c $(INCLUDE_DIR)/renderer.h $(SRC_DIR)/renderer.cpp
+
+InputController.o:
+	$(CC) $(CFLAGS) -c $(INCLUDE_DIR)/InputController.h $(SRC_DIR)/InputController.cpp
 
 #release:
 	#make a bin directory if it does not already exist
@@ -21,7 +28,7 @@ TARGET = gl_nbody
 	#g++ src/main.cpp -lGL -lX11 -lGLU -o bin/main
 
 debug: 
-	$(CC) -o $(OUTPUT_DIR)$(TARGET) $(SRC_DIR)main.cpp $(CFLAGS) -g $(LIBS) 
+	$(CC) -o $(OUTPUT_DIR)$(TARGET) $(INCLUDE_DIR)/*.h $(SRC_DIR)/*.cpp $(CFLAGS) -g $(LIBS) 
 clean: 
 	rm -rf bin/*
 

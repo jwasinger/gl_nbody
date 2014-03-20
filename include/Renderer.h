@@ -23,7 +23,7 @@ namespace gl_nbody
     class Renderer
     {
         public:
-            Renderer(void);
+            Renderer();
             ~Renderer();
 
             bool Init(SDL_window *mainWindow);

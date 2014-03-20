@@ -1,5 +1,6 @@
 #ifndef INPUTCONTROLLER_H
 #define INPUTCONTROLLER_H
+#include "Renderer.h"
 
 namespace NBody
 {
