@@ -30,13 +30,14 @@ namespace gl_nbody
             void Render(void);
 
         private:
-            void createTriangle(void);
-            void renderTriangle(void);
-            void deleteTriangle(void);
+            void create_triangle(void);
+            void render_triangle(void);
+            void delete_triangle(void);
 
         private:
-            SDL_window *mainWindow;
-            SDL_GLContext glContextHandle;
+            SDL_window *main_window;
+            SDL_GLContext gl_context_handle;
+            GLUint program_id;
     };
 }
 #endif

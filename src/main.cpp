@@ -1,6 +1,9 @@
 #include <iostream>
 
 SDL_window *mainWindow = nullptr;
+InputController *inputController = nullptr;
+Renderer *renderer = nullptr;
+Simulation *simulation = nullptr;
 bool debugTerminalRunning = false;
 bool useDebugTerminal = true;
 
