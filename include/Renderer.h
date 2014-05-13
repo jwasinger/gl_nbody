@@ -29,6 +29,8 @@ namespace gl_nbody
             bool Init(SDL_window *mainWindow);
             void Render(void);
 
+            void GetTriangleTransform() const;
+            void
         private:
             void create_triangle(void);
             void render_triangle(void);
