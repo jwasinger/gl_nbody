@@ -40,6 +40,7 @@ namespace gl_nbody
             SDL_window *main_window;
             SDL_GLContext gl_context_handle;
             GLUint program_id;
+            GLUint tri_buffer_id;
     };
 }
 #endif

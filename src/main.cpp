@@ -1,5 +1,7 @@
 #include <iostream>
-
+#include "renderer.h"
+#include <SDL2/SDL.h>
+#include <GL/gl.h>
 SDL_window *mainWindow = nullptr;
 InputController *inputController = nullptr;
 Renderer *renderer = nullptr;
@@ -35,7 +37,7 @@ int main(int argc, char *argv[])
     //create input controller
 
     //create renderer
-
+    renderer = new Renderer();
     //initiallize simulation
 
     while(true)
@@ -47,8 +49,13 @@ int main(int argc, char *argv[])
         {
 
         }
+
         //render(),update()
+        renderer->render();
     }
 
+    delete renderer;
+    SDL_DestroyWindow(mainwindow);
+    SDL_Quit();
     return 0;
 }

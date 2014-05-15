@@ -40,9 +40,47 @@ namespace gl_nbody
         SDL_GL_DeleteContext(this->mainContext);
     }
 
+    void Renderer::create_triangle()
+    {
+        float verts[] =
+        {
+            0.0f, 1.0f, 0.5f,
+            1.0f, 1.0f, 0.5f,
+            0.0f, 0.0f, 0.5f,
+        };
+
+        if(!glGenBuffers(1, &this->tri_buffer_id))
+        glBindBuffer(GL_ARRAY_BUFFER, this->tri_buffer_id);
+        glBufferData(this->tri_buffer_id, sizeof(float * 9), verts, GL_STATIC_DRAW);
+    }
+
+    void Renderer::delete_triangle()
+    {}
+
+    void Renderer::render_triangle()
+    {
+        glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer); //is this line needed?
+        glVertexAttribPointer(this->tri_buffer_id,
+                              3,
+                              GL_FLOAT,
+                              GL_FALSE,
+                              0,
+                              (void *)0
+                              );
+
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDisableVertexAttribArray(0);
+    }
+
     void Renderer::Render(void)
     {
+        glClearColor ( 0.0, 0.0, 1.0, 1.0 );
+        glClear ( GL_COLOR_BUFFER_BIT );
 
+        this->render_triangle();
+
+        SDL_GL_SwapWindow(mainwindow);
     }
 
     //random rendering-related code from SDL 2.0 sample

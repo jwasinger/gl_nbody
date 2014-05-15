@@ -1,4 +1,5 @@
-./codeblocks/
+./gl_nbody.layout
+./gl_nbody.cbp
 ./bin/
 ./CMakeFiles/
 ./CMakeCache.txt
