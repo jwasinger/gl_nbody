@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
         SDL_Event event;
         while(SDL_PollEvent(&event))
         {
-
+            //do something, for now no controls
         }
 
         //render(),update()

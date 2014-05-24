@@ -22,6 +22,19 @@ namespace gl_nbody
 
     class Renderer
     {
+        private:
+            void create_triangle(void);
+            void render_triangle(void);
+            void delete_triangle(void);
+            bool load_shaders(void);
+
+        private:
+            SDL_window *main_window;
+            SDL_GLContext gl_context_handle;
+            GLUint program;
+            GLUint tri_buffer;
+            GLUint vertex_shader, frag_shader;
+
         public:
             Renderer();
             ~Renderer();
@@ -30,17 +43,7 @@ namespace gl_nbody
             void Render(void);
 
             void GetTriangleTransform() const;
-            void
-        private:
-            void create_triangle(void);
-            void render_triangle(void);
-            void delete_triangle(void);
 
-        private:
-            SDL_window *main_window;
-            SDL_GLContext gl_context_handle;
-            GLUint program_id;
-            GLUint tri_buffer_id;
     };
 }
 #endif

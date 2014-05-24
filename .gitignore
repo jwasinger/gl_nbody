@@ -1,5 +1,5 @@
-./gl_nbody.layout
-./gl_nbody.cbp
+*.layout
+*.cbp
 ./bin/
 ./CMakeFiles/
 ./CMakeCache.txt
