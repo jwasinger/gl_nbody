@@ -34,6 +34,9 @@ namespace gl_nbody
         /* This makes our buffer swap syncronized with the monitor's vertical refresh */
         SDL_GL_SetSwapInterval(1);
 
+        if(!this->load_shaders())
+            return false;
+
         return true;
     }
 
