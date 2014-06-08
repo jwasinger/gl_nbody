@@ -1,5 +1,5 @@
 #include <iostream>
-#include "renderer.h"
+#include "Renderer.h"
 #include <SDL2/SDL.h>
 #include <GL/gl.h>
 SDL_window *mainWindow = nullptr;
