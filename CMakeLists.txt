@@ -1,9 +1,10 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 CMAKE_POLICY(SET CMP0002 OLD)
 
-PROJECT(gl_nbody)
+PROJECT(gl_nbody C CXX)
 
 ADD_EXECUTABLE(gl_nbody src/main.cpp)
+set_target_properties(gl_nbody PROPERTIES LINKER_LANGUAGE CXX)
 
 INCLUDE(FindPkgConfig)
 PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
@@ -15,6 +16,6 @@ include_directories(${OPENGL_INCLUDE_DIRS})
 target_link_libraries(gl_nbody ${OPENGL_LIBRARIES})
 
 add_subdirectory("src")
-add_subdirectory("include")
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
 

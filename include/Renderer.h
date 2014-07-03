@@ -1,11 +1,12 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include "util.h"
+#include "Util.h"
+#include "SDL2/SDL.h"
 
 namespace gl_nbody
 {
-    enum TRANSFORM_TYPE : UINT
+    enum TRANSFORM_TYPE
     {
         TRANSFORM_WORLD,
         TRANSFORM_PROJECTION,
@@ -43,7 +44,6 @@ namespace gl_nbody
             void Render(void);
 
             void GetTriangleTransform() const;
-
     };
 }
 #endif
