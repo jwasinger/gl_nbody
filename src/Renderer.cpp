@@ -1,17 +1,16 @@
-#include "renderer.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 
 /* If using gl3.h */
 /* Ensure we are using opengl's core profile only */
-#include<GL/glew.h>
+#include <GL/glew.h>
 #define GL3_PROTOTYPES 1
 #include <GL/gl.h>
 
 #include <SDL.h>
-#include "renderer.h"
+#include "Renderer.h"
+
 namespace gl_nbody
 {
     bool Renderer::Init(SDL_WINDOW *mainWindow)
