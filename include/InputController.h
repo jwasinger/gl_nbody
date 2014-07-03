@@ -1,8 +1,9 @@
 #ifndef INPUTCONTROLLER_H
 #define INPUTCONTROLLER_H
 #include "Renderer.h"
+#include "Util.h"
 
-namespace NBody
+namespace gl_nbody
 {
 	enum CAMERA_MODE
 	{
@@ -48,15 +49,15 @@ namespace NBody
 		CAMERA_MODE GetCameraMode(void) const { return this->cameraMode; }
 		MOTION_STATE GetMotionState(void) const { return this->motionState; }
 
-		void OnWndProc(UINT message, WPARAM wparam, LPARAM lparam);
+		//void OnWndProc(UINT message, WPARAM wparam, LPARAM lparam);
 		void Update(double ms);
-		bool Init(HWND hWnd);
+		//bool Init(HWND hWnd);
 
 	private:
-		void readRawInput(LPARAM lParam);
+		//void readRawInput(LPARAM lParam);
 		void FPSMouseUpdate(int dx, int dy);
-		void onKeyDown(WPARAM wParam);
-		void onKeyUp(WPARAM wParam);
+		//void onKeyDown(WPARAM wParam);
+		//void onKeyUp(WPARAM wParam);
 	};
 }
 #endif // INPUTCONTROLLER_H

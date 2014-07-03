@@ -8,7 +8,7 @@
 
 SDL_Window *main_window = NULL;
 //InputController *inputController = nullptr;
-//Renderer *renderer = nullptr;
+gl_nbody::Renderer *renderer = nullptr;
 //Simulation *simulation = nullptr;
 bool debugTerminalRunning = false;
 bool useDebugTerminal = true;
@@ -33,17 +33,17 @@ int main(int argc, char *argv[])
     /******************************************************************************/
 
     /* Create our window centered at 512x512 resolution */
-    main_window = SDL_CreateWindow(PROGRAM_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+    main_window = SDL_CreateWindow("PROGRAM_NAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                   512, 512, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
     if (!main_window) /* Die if creation failed */
-        std::cout << "\nSDL_CreateWindow() failed\n"
+        std::cout << "\nSDL_CreateWindow() failed\n";
 
     //create debug terminal
 
     //create input controller
 
     //create renderer
-    //renderer = new Renderer();
+    renderer = new Renderer();
     //initiallize simulation
 
     while(true)
@@ -57,10 +57,10 @@ int main(int argc, char *argv[])
         }
 
         //render(),update()
-        //renderer->render();
+        renderer->render();
     }
 
-    //delete renderer;
+    delete renderer;
     SDL_DestroyWindow(main_window);
     SDL_Quit();
     return 0;
