@@ -1,5 +1,6 @@
 #ifndef INPUTCONTROLLER_H
 #define INPUTCONTROLLER_H
+
 #include "Renderer.h"
 #include "Util.h"
 
@@ -60,4 +61,5 @@ namespace gl_nbody
 		//void onKeyUp(WPARAM wParam);
 	};
 }
+
 #endif // INPUTCONTROLLER_H

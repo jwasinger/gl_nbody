@@ -1,3 +1,6 @@
+#ifndef CAMERA_H
+#define CAMERA_H
+
 #include "glm/matrix4x4.hpp"
 
 //Implement a simple w,a,s,d controlled camera with rotation controlled by arrows
@@ -10,3 +13,5 @@ public:
     Camera3D();
     ~Camera3D();
 };
+
+#endif

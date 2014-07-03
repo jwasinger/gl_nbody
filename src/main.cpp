@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     //create input controller
 
     //create renderer
-    renderer = new Renderer();
+    renderer = new gl_nbody::Renderer();
     //initiallize simulation
 
     while(true)
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
         }
 
         //render(),update()
-        renderer->render();
+        renderer->Render();
     }
 
     delete renderer;
