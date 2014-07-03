@@ -3,6 +3,7 @@
 
 #include "Util.h"
 #include "SDL2/SDL.h"
+#include "SDL.h"
 
 namespace gl_nbody
 {
