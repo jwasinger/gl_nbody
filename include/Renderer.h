@@ -4,6 +4,7 @@
 #include "Util.h"
 #include "SDL2/SDL.h"
 #include "SDL.h"
+#include <GL/gl.h>
 
 namespace gl_nbody
 {
@@ -31,17 +32,17 @@ namespace gl_nbody
             bool load_shaders(void);
 
         private:
-            SDL_window *main_window;
+            SDL_Window *main_window;
             SDL_GLContext gl_context_handle;
-            GLUint program;
-            GLUint tri_buffer;
-            GLUint vertex_shader, frag_shader;
+            GLuint program;
+            GLuint tri_buffer;
+            GLuint vertex_shader, frag_shader;
 
         public:
             Renderer();
             ~Renderer();
 
-            bool Init(SDL_window *mainWindow);
+            bool Init(const SDL_Window *mainWindow);
             void Render(void);
 
             void GetTriangleTransform() const;
