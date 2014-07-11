@@ -22,8 +22,8 @@ namespace gl_nbody
         this->main_window = mainWindow;
 
         //use Open GL 4.2
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
         this->gl_context = SDL_GL_CreateContext(this->main_window);
         if(!checkSDLError())
@@ -86,7 +86,7 @@ namespace gl_nbody
         glClearColor ( 0.0, 0.0, 1.0, 1.0 );
         glClear ( GL_COLOR_BUFFER_BIT );
 
-        this->render_triangle();
+        //this->render_triangle();
 
         SDL_GL_SwapWindow(this->main_window);
     }

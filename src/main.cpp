@@ -1,8 +1,8 @@
 #include <iostream>
-#include "Renderer.h"
 #include <SDL2/SDL.h>
 #include <GL/gl.h>
 
+#include "Renderer.h"
 #include "InputController.h"
 //#include "Simulation.h"
 
@@ -13,14 +13,15 @@ gl_nbody::Renderer *renderer = nullptr;
 bool debugTerminalRunning = false;
 bool useDebugTerminal = true;
 
-int main(int argc, char *argv[]);
 bool init(void);
 void render(void);
 void update(void);
 void freeAppResources(void);
 
-int main(int argc, char *argv[])
+int main(void)
 {
+	std::cout << "hello world!";
+    
     SDL_Init(SDL_INIT_VIDEO);
 
     /*****************************************************************************
@@ -44,24 +45,27 @@ int main(int argc, char *argv[])
 
     //create renderer
     renderer = new gl_nbody::Renderer();
+    if(!renderer->Init(main_window))
+    	return 1;
+  
     //initiallize simulation
 
     while(true)
     {
         //process events in the queue
         //if quit event, quit out
-        SDL_Event event;
-        while(SDL_PollEvent(&event))
-        {
-            //do something, for now no controls
-        }
+        // SDL_Event event;
+        // while(SDL_PollEvent(&event))
+        // {
+        //     //do something, for now no controls
+        // }
 
         //render(),update()
         renderer->Render();
     }
 
-    delete renderer;
-    SDL_DestroyWindow(main_window);
-    SDL_Quit();
+    //delete renderer;
+    //SDL_DestroyWindow(main_window);
+    //SDL_Quit();
     return 0;
 }
