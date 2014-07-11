@@ -86,7 +86,7 @@ namespace gl_nbody
         glClearColor ( 0.0, 0.0, 1.0, 1.0 );
         glClear ( GL_COLOR_BUFFER_BIT );
 
-        //this->render_triangle();
+        this->render_triangle();
 
         SDL_GL_SwapWindow(this->main_window);
     }

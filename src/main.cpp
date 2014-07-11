@@ -1,9 +1,12 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+
+#include "glew.h"
 #include <GL/gl.h>
 
 #include "Renderer.h"
 #include "InputController.h"
+
 //#include "Simulation.h"
 
 SDL_Window *main_window = NULL;
@@ -21,7 +24,7 @@ void freeAppResources(void);
 int main(void)
 {
 	std::cout << "hello world!";
-    
+
     SDL_Init(SDL_INIT_VIDEO);
 
     /*****************************************************************************
@@ -46,22 +49,34 @@ int main(void)
     //create renderer
     renderer = new gl_nbody::Renderer();
     if(!renderer->Init(main_window))
-    	return 1;
-  
+    {
+        std::cout << glewGetErrorString(GLEW_VERSION);
+    }
+
     //initiallize simulation
+
+    bool quit = false;
 
     while(true)
     {
+        if(quit)
+            break;
+
         //process events in the queue
         //if quit event, quit out
-        // SDL_Event event;
-        // while(SDL_PollEvent(&event))
-        // {
-        //     //do something, for now no controls
-        // }
+        SDL_Event event;
+        while(SDL_PollEvent(&event))
+        {
+            if(event.type == SDL_QUIT)
+            {
+                quit = true;
+            }
+             //do something, for now no controls
+        }
 
-        //render(),update()
         renderer->Render();
+        //render(),update()
+
     }
 
     //delete renderer;
