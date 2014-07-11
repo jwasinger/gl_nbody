@@ -3,5 +3,6 @@ gl_nbody
 
 a port of the nbody simulation to opengl
 
-Project Requirements: 
+Project Dependencies: 
 -SDL 2.0
+-GLEW 1.10.0

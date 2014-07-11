@@ -9,7 +9,7 @@ PKG_SEARCH_MODULE 			(SDL2 REQUIRED sdl2)
 
 FIND_PACKAGE				(OpenGL REQUIRED)
 
-SET(LIB_GLEW 			${PROJECT_SOURCE_DIR}/external_libs/glew-1.10.0/lib/libGLEW.so.1.10.0)
+SET(LIB_GLEW 			${PROJECT_SOURCE_DIR}/external_libs/glew-1.10.0/lib/libGLEW.so.1.10)
 SET(GLEW_INCLUDE_DIR 	${PROJECT_SOURCE_DIR}/external_libs/glew-1.10.0/include/GL)
 
 INCLUDE_DIRECTORIES(${GLEW_INCLUDE_DIR}
@@ -34,5 +34,4 @@ TARGET_LINK_LIBRARIES(	gl_nbody
 						${LIB_GLEW}
 						${SDL2_LIBRARIES}
 					    ${OPENGL_LIBRARIES})
-
 
