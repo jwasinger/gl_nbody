@@ -1,30 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <fstream>
 
 /* If using gl3.h */
 /* Ensure we are using opengl's core profile only */
-#include <GL/glew.h>
+#include "glew.h"
 #define GL3_PROTOTYPES 1
 #include <GL/gl.h>
 
-#include <SDL.h>
+#include "SDL2/SDL.h"
 #include "Renderer.h"
 
 namespace gl_nbody
 {
-    bool Renderer::Init(SDL_WINDOW *mainWindow)
+    bool Renderer::Init(SDL_Window *mainWindow)
     {
         if(!mainWindow)
             return false;
 
-        this->mainWindow = mainWindow;
+        this->main_window = mainWindow;
 
         //use Open GL 4.2
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
-        this->mainContext = SDL_GL_CreateContext(window);
+        this->gl_context = SDL_GL_CreateContext(this->main_window);
         if(!checkSDLError())
             return false;
 
@@ -43,7 +44,7 @@ namespace gl_nbody
 
     Renderer::~Renderer(void)
     {
-        SDL_GL_DeleteContext(this->mainContext);
+        SDL_GL_DeleteContext(this->gl_context);
     }
 
     void Renderer::create_triangle()
@@ -55,9 +56,10 @@ namespace gl_nbody
             0.0f, 0.0f, 0.5f,
         };
 
-        if(!glGenBuffers(1, &this->tri_buffer))
+        glGenBuffers(1, &this->tri_buffer);
+
         glBindBuffer(GL_ARRAY_BUFFER, this->tri_buffer);
-        glBufferData(this->tri_buffer, sizeof(float * 9), verts, GL_STATIC_DRAW);
+        glBufferData(this->tri_buffer, sizeof(float) * 9, verts, GL_STATIC_DRAW);
     }
 
     void Renderer::delete_triangle()
@@ -66,7 +68,7 @@ namespace gl_nbody
     void Renderer::render_triangle()
     {
         glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer); //is this line needed?
+        glBindBuffer(GL_ARRAY_BUFFER, this->tri_buffer); //is this line needed?
         glVertexAttribPointer(this->tri_buffer,
                               3,
                               GL_FLOAT,
@@ -86,7 +88,7 @@ namespace gl_nbody
 
         this->render_triangle();
 
-        SDL_GL_SwapWindow(mainwindow);
+        SDL_GL_SwapWindow(this->main_window);
     }
 
     enum
@@ -97,23 +99,23 @@ namespace gl_nbody
         OUT_OF_MEMORY,
     };
 
-    unsigned long get_file_length(ifstream& file)
+    unsigned long get_file_length(std::ifstream& file)
     {
         if(!file.good())
             return 0;
 
         unsigned long pos=file.tellg();
-        file.seekg(0,ios::end);
+        file.seekg(0,std::ios::end);
         unsigned long len = file.tellg();
-        file.seekg(ios::beg);
+        file.seekg(std::ios::beg);
 
         return len;
     }
 
-    int load_shader(char* filename, GLchar** ShaderSource, unsigned long* len)
+    int load_shader(char* filename, GLchar** ShaderSource, unsigned long& len)
     {
-        ifstream file;
-        file.open(filename, ios::in); // opens as ASCII!
+        std::ifstream file;
+        file.open(filename, std::ios::in); // opens as ASCII!
         if(!file)
             return FILE_NOT_FOUND;
 
@@ -122,7 +124,7 @@ namespace gl_nbody
         if (len==0)
             return EMPTY_FILE;   // Error: Empty File
 
-        *ShaderSource = (GLubyte*) new char[len+1];
+        *ShaderSource = new char[len+1];
         if (*ShaderSource == 0)
             return OUT_OF_MEMORY;   // can't reserve memory
 
@@ -183,12 +185,12 @@ namespace gl_nbody
         GLint blen = 0;
         GLsizei slen = 0;
 
-        glGetShaderiv(ShaderObject, GL_INFO_LOG_LENGTH , &blen);
+        glGetShaderiv(shader_object, GL_INFO_LOG_LENGTH , &blen);
         if (blen > 1)
         {
             GLchar* compiler_log = (GLchar*)malloc(blen);
-            glGetInfoLogARB(ShaderObject, blen, &slen, compiler_log);
-            cout << compiler_log << std::endl;
+            glGetInfoLogARB(shader_object, blen, &slen, compiler_log);
+            std::cout << compiler_log << std::endl;
             free(compiler_log);
         }
     }
@@ -205,20 +207,20 @@ namespace gl_nbody
         GLchar **fSource = nullptr;
 
         int error = 0;
-        error = load_shader("shaders/basic.frag", fSource, &fLength);
-        log_shader_error(error);
+        error = load_shader("shaders/basic.frag", fSource, fLength);
+        log_shader_load_error(error);
         if(error != 0)
             return false;
 
-        error = load_shader("shaders/basic.vert", vSource, &vLength);
-        log_shader_error(error);
+        error = load_shader("shaders/basic.vert", vSource, vLength);
+        log_shader_load_error(error);
         if(error != 0)
             return false;
 
         //attach and compile shaders
 
-        glShaderSourceARB(this->vertex_shader, 1, &vSource, &vLength);
-        glShaderSourceARB(this->frag_shader, 1, &fSource, &fLength);
+        glShaderSourceARB(this->vertex_shader, 1, (const char **)vSource, &vLength);
+        glShaderSourceARB(this->frag_shader, 1, (const char **)fSource, &fLength);
 
         glCompileShaderARB(this->vertex_Shader);
         glCompileShaderARB(this->frag_shader);

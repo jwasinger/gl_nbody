@@ -1,11 +1,11 @@
 #include "InputController.h"
 
-InputController::InputController()
+gl_nbody::InputController::InputController()
 {
     //ctor
 }
 
-InputController::~InputController()
+gl_nbody::InputController::~InputController()
 {
     //dtor
 }

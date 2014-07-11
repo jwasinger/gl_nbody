@@ -2,8 +2,8 @@
 #define RENDERER_H
 
 #include "Util.h"
-#include "SDL2/SDL.h"
-#include "SDL.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 #include <GL/gl.h>
 
 namespace gl_nbody
@@ -33,7 +33,7 @@ namespace gl_nbody
 
         private:
             SDL_Window *main_window;
-            SDL_GLContext gl_context_handle;
+            SDL_GLContext gl_context;
             GLuint program;
             GLuint tri_buffer;
             GLuint vertex_shader, frag_shader;
@@ -42,7 +42,7 @@ namespace gl_nbody
             Renderer();
             ~Renderer();
 
-            bool Init(const SDL_Window *mainWindow);
+            bool Init(SDL_Window *mainWindow);
             void Render(void);
 
             void GetTriangleTransform() const;
