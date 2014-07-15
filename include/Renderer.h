@@ -42,7 +42,7 @@ namespace gl_nbody
             Renderer();
             ~Renderer();
 
-            bool Init(SDL_Window *mainWindow);
+            bool Init(SDL_Window **mainWindow);
             void Render(void);
 
             void GetTriangleTransform() const;

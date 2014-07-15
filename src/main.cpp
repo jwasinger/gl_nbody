@@ -9,7 +9,7 @@
 
 //#include "Simulation.h"
 
-SDL_Window *main_window = NULL;
+SDL_Window *main_window = nullptr;
 //InputController *inputController = nullptr;
 gl_nbody::Renderer *renderer = nullptr;
 //Simulation *simulation = nullptr;
@@ -21,11 +21,15 @@ void render(void);
 void update(void);
 void freeAppResources(void);
 
+
 int main(void)
 {
-	std::cout << "hello world!";
-
-    SDL_Init(SDL_INIT_VIDEO);
+    if(SDL_Init(SDL_INIT_VIDEO) < 0)
+    {
+        std::cout << "Failed to initiallize SDL..." << std::endl;
+        std::cout << SDL_GetError() << std::endl;
+        return 1;
+    }
 
     /*****************************************************************************
     /   Init routine:
@@ -37,10 +41,6 @@ int main(void)
     /******************************************************************************/
 
     /* Create our window centered at 512x512 resolution */
-    main_window = SDL_CreateWindow("PROGRAM_NAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                  512, 512, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
-    if (!main_window) /* Die if creation failed */
-        std::cout << "\nSDL_CreateWindow() failed\n";
 
     //create debug terminal
 
@@ -48,12 +48,14 @@ int main(void)
 
     //create renderer
     renderer = new gl_nbody::Renderer();
-    if(!renderer->Init(main_window))
+    if(!renderer->Init(&main_window))
     {
         std::cout << glewGetErrorString(GLEW_VERSION);
+        return 1;
     }
 
     //initiallize simulation
+    return 0;
 
     bool quit = false;
 

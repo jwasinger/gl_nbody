@@ -1,7 +1,7 @@
 #ifndef UTIL_H_INCLUDED
 #define UTIL_H_INCLUDED
 
-bool checkSDLError(void);
+bool SDLError(void);
 
 struct RECT
 {

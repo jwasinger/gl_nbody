@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <cstdio>
 
-bool checkSDLError(void)
+bool SDLError(void)
 {
     const char *error = SDL_GetError();
     if (*error != '\0')

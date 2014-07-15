@@ -14,20 +14,37 @@
 
 namespace gl_nbody
 {
-    bool Renderer::Init(SDL_Window *mainWindow)
+    bool Renderer::Init(SDL_Window **main_window)
     {
-        if(!mainWindow)
-            return false;
-
-        this->main_window = mainWindow;
-
-        //use Open GL 4.2
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
+        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+        SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+
+        *main_window = SDL_CreateWindow("PROGRAM_NAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                                  512, 512, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+
+        if (!main_window) /* Die if creation failed */
+            std::cout << "\nSDL_CreateWindow() failed\n";
+
+        this->main_window = *main_window;
+
+        //use Open GL 3.1
+
         this->gl_context = SDL_GL_CreateContext(this->main_window);
-        if(!checkSDLError())
+        if(SDLError())
             return false;
+
+        //
+
+        // Init GLEW -------------------------------------------------------------------
+        GLenum err = glewInit();
+        if(err != GLEW_OK)
+        {
+            std::cout << "Error initiallizing GLEW" << std::endl;
+            return false;
+        }
 
         this->program = glCreateProgram();
 
@@ -67,7 +84,7 @@ namespace gl_nbody
 
     void Renderer::render_triangle()
     {
-        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, this->tri_buffer); //is this line needed?
         glVertexAttribPointer(this->tri_buffer,
                               3,
@@ -78,7 +95,7 @@ namespace gl_nbody
                               );
 
         glDrawArrays(GL_TRIANGLES, 0, 3);
-        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
     }
 
     void Renderer::Render(void)
