@@ -17,8 +17,18 @@ INCLUDE_DIRECTORIES(${GLEW_INCLUDE_DIR}
 					${OPENGL_INCLUDE_DIRS}
 					${PROJECT_SOURCE_DIR}/include)
 
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin/")
+
+#copy shaders directory to the output directory
+#add_custom_command(TARGET gl_nbody PRE_BUILD 
+#				   COMMAND ${CMAKE_COMMAND} -E copy_directory
+#				   ${PROJECT_SOURCE_DIR}/src/shaders $<CMAKE_RUNTIMEOUTPUTDIRECTORY
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g")
+
+FILE(GLOB shaders "${CMAKE_PROJECT_DIRECTORY}/src/shaders/*")
+
+configure_file("src/shaders/" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
 
 FILE(GLOB gl_nbody_SRC 
 	"src/*.cpp"	
