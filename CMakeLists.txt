@@ -26,9 +26,9 @@ SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin/")
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g")
 
-FILE(GLOB shaders "${CMAKE_PROJECT_DIRECTORY}/src/shaders/*")
+FILE(GLOB gl_nbody_SHADERS "src/shaders/*")
 
-configure_file("src/shaders/" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
+#configure_file("src/shaders/" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
 
 FILE(GLOB gl_nbody_SRC 
 	"src/*.cpp"	
@@ -38,7 +38,7 @@ FILE(GLOB gl_nbody_HEADERS
 	"include/*.h"
 )
 
-add_executable(gl_nbody ${gl_nbody_SRC} ${gl_nbody_HEADERS})
+add_executable(gl_nbody ${gl_nbody_SRC} ${gl_nbody_HEADERS} ${gl_nbody_SHADERS})
 
 TARGET_LINK_LIBRARIES(	gl_nbody 
 						${LIB_GLEW}

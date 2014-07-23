@@ -145,21 +145,26 @@ namespace gl_nbody
         if (*ShaderSource == 0)
             return OUT_OF_MEMORY;   // can't reserve memory
 
-        // len isn't always strlen cause some characters are stripped in ascii read...
-        // it is important to 0-terminate the real length later, len is just max possible value...
-        *ShaderSource[len] = 0;
-
-        unsigned int i=0;
-        while (file.good())
-        {
-            *ShaderSource[i] = file.get();       // get character from file.
-            if (!file.eof())
-                i++;
-        }
-
-        *ShaderSource[i] = 0;  // 0-terminate it at the correct position
+        // read data as a block:
+        file.read (*ShaderSource,len);
 
         file.close();
+
+        // len isn't always strlen cause some characters are stripped in ascii read...
+        // it is important to 0-terminate the real length later, len is just max possible value...
+//        *ShaderSource[len] = 0;
+//
+//        unsigned int i=0;
+//        while (file.good())
+//        {
+//            *ShaderSource[i] = file.get();       // get character from file.
+//            if (!file.eof())
+//                i++;
+//        }
+
+//        *ShaderSource[i] = 0;  // 0-terminate it at the correct position
+
+//        file.close();
 
         return SUCCESS; // No Error
     }
@@ -220,24 +225,26 @@ namespace gl_nbody
         //load shader source code from files
 
         int vLength, fLength;
-        GLchar **vSource = nullptr;
-        GLchar **fSource = nullptr;
+        GLchar *vSource = nullptr;
+        GLchar *fSource = nullptr;
 
         int error = 0;
-        error = load_shader("shaders/basic.frag", fSource, fLength);
+        error = load_shader("shaders/basic.frag", &fSource, fLength);
         log_shader_load_error(error);
         if(error != 0)
             return false;
 
-        error = load_shader("shaders/basic.vert", vSource, vLength);
+        error = load_shader("shaders/basic.vert", &vSource, vLength);
         log_shader_load_error(error);
         if(error != 0)
             return false;
 
         //attach and compile shaders
 
-        glShaderSourceARB(this->vertex_shader, 1, (const char **)vSource, (const int *)&vLength);
-        glShaderSourceARB(this->frag_shader, 1, (const char **)fSource, (const int *)&fLength);
+        const int vLengths[] = {vLength};
+        const int fLengths[] = {fLength};
+        glShaderSourceARB(this->vertex_shader, 1, (const char **)vSource, NULL);
+        glShaderSourceARB(this->frag_shader, 1, (const char **)fSource, NULL);
 
         glCompileShaderARB(this->vertex_shader);
         glCompileShaderARB(this->frag_shader);
