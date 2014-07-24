@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 /* If using gl3.h */
 /* Ensure we are using opengl's core profile only */
@@ -62,6 +63,9 @@ namespace gl_nbody
     Renderer::~Renderer(void)
     {
         SDL_GL_DeleteContext(this->gl_context);
+        glDeleteShader(this->vertex_shader);
+        glDeleteShader(this->frag_shader);
+        glDeleteProgram(this->program);
     }
 
     void Renderer::create_triangle()
@@ -145,8 +149,10 @@ namespace gl_nbody
         if (*ShaderSource == 0)
             return OUT_OF_MEMORY;   // can't reserve memory
 
+        (*ShaderSource)[len] = '\0';
+
         // read data as a block:
-        file.read (*ShaderSource,len);
+        file.read(*ShaderSource,len);
 
         file.close();
 
@@ -202,18 +208,44 @@ namespace gl_nbody
         }
     }
 
+    void log_shader_linker_errors(GLuint program)
+    {
+        GLint is_linked = 0;
+        glGetProgramiv(program, GL_LINK_STATUS, &is_linked);
+        if(is_linked == GL_FALSE)
+        {
+            GLint max_length = 0;
+            glGetProgramiv(program, GL_INFO_LOG_LENGTH, &max_length);
+
+            //The maxLength includes the NULL character
+            std::vector<GLchar> infoLog(max_length);
+            glGetProgramInfoLog(program, max_length, &max_length, &infoLog[0]);
+
+            for(std::vector<GLchar>::const_iterator i = infoLog.begin(); i != infoLog.end(); ++i)
+                std::cout << *i;
+
+            std::cout << std::endl;
+
+            //Provide the infolog in whatever manor you deem best.
+            //Exit with failure.
+            return;
+        }
+    }
+
     void log_shader_compiler_errors(GLuint shader_object)
     {
-        GLint blen = 0;
-        GLsizei slen = 0;
+        GLint max_len = 0;
 
-        glGetShaderiv(shader_object, GL_INFO_LOG_LENGTH , &blen);
-        if (blen > 1)
+        glGetShaderiv(shader_object, GL_INFO_LOG_LENGTH , &max_len);
+        if (max_len > 1)
         {
-            GLchar* compiler_log = (GLchar*)malloc(blen);
-            glGetInfoLogARB(shader_object, blen, &slen, compiler_log);
-            std::cout << compiler_log << std::endl;
-            free(compiler_log);
+            std::vector<GLchar> infoLog(max_len);
+            glGetShaderInfoLog(shader_object, max_len, &max_len, &infoLog[0]);
+
+            for(std::vector<GLchar>::const_iterator i = infoLog.begin(); i != infoLog.end(); ++i)
+                std::cout << *i;
+
+            std::cout << std::endl;
         }
     }
 
@@ -240,14 +272,15 @@ namespace gl_nbody
             return false;
 
         //attach and compile shaders
+        const GLchar *v_src = (const GLchar *)vSource;
+        glShaderSource(this->vertex_shader, 1, &v_src, NULL);
 
-        const int vLengths[] = {vLength};
-        const int fLengths[] = {fLength};
-        glShaderSourceARB(this->vertex_shader, 1, (const char **)vSource, NULL);
-        glShaderSourceARB(this->frag_shader, 1, (const char **)fSource, NULL);
+        const GLchar *f_src = (const GLchar *)fSource;
+        glShaderSource(this->frag_shader, 1, &f_src, NULL);
+        //this is ugly ^^ change it soon
 
-        glCompileShaderARB(this->vertex_shader);
-        glCompileShaderARB(this->frag_shader);
+        glCompileShader(this->vertex_shader);
+        glCompileShader(this->frag_shader);
 
         GLint compiled;
         //glGetObjectParameterivARB(this->vertex_shader, GL_COMPILE_STATUS, &compiled);
@@ -272,7 +305,7 @@ namespace gl_nbody
                       << "Compiler log: "
                       << std::endl;
 
-            log_shader_compiler_errors(this->vertex_shader);
+            log_shader_compiler_errors(this->frag_shader);
             return false;
         }
 
@@ -284,9 +317,7 @@ namespace gl_nbody
         glGetProgramiv(this->program, GL_LINK_STATUS, &linked);
         if(!linked)
         {
-            std::cout << "Error: Shader linking failed!" << std::endl;
-            //TODO: output the exact nature of the linking error
-            //http://www.opengl.org/sdk/docs/tutorials/ClockworkCoders/loading.php
+            log_shader_linker_errors(this->program);
 
             return false;
         }

@@ -55,7 +55,6 @@ int main(void)
     }
 
     //initiallize simulation
-    return 0;
 
     bool quit = false;
 
