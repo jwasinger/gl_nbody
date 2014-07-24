@@ -72,15 +72,15 @@ namespace gl_nbody
     {
         float verts[] =
         {
-            0.0f, 1.0f, 0.5f,
-            1.0f, 1.0f, 0.5f,
-            0.0f, 0.0f, 0.5f,
+            0.0f, 1.0f, 0.5f, 1.0f,
+            1.0f, 1.0f, 0.5f, 1.0f,
+            0.0f, 0.0f, 0.5f, 1.0f,
         };
 
         glGenBuffers(1, &this->tri_buffer);
 
         glBindBuffer(GL_ARRAY_BUFFER, this->tri_buffer);
-        glBufferData(this->tri_buffer, sizeof(float) * 9, verts, GL_STATIC_DRAW);
+        glBufferData(this->tri_buffer, sizeof(float) * 12, verts, GL_STATIC_DRAW);
     }
 
     void Renderer::delete_triangle()
